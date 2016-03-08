@@ -12,4 +12,4 @@ oslo.vmware>=0.13.1 # Apache-2.0
 oslo.config>=1.9.3,<1.10.0  # Apache-2.0
 oslo.utils>=1.4.0,<1.5.0
 oslo.log
-python-monascaclient
+python-monascaclient==1.0.27
