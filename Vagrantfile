@@ -4,7 +4,7 @@
 $script = <<SCRIPT
 sudo apt-get update
 sudo apt-get install -y git
-git clone https://git.openstack.org/openstack/monasca-ceilometer
+git clone -b fiware https://github.com/telefonicaid/monasca-ceilometer.git
 cd monasca-ceilometer
 deployer/ceilosca.sh
 SCRIPT
