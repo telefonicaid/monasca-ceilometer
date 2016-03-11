@@ -1,13 +1,25 @@
 ---
 sources:
     - name: meter_source
-      interval: 60
+      interval: 600
       meters:
-          - "*"
+          - "region.allocated_ip"
+          - "region.pool_ip"
+          - "region.used_ip"
+          - "image"
+          - "instance"
+          - "compute.node.cpu.percent"
+          - "compute.node.cpu.now"
+          - "compute.node.ram.now"
+          - "compute.node.ram.tot"
+          - "compute.node.disk.now"
+          - "compute.node.disk.tot"
+          - "processes.process_pid_count"
       sinks:
           - meter_sink
 sinks:
     - name: meter_sink
       transformers:
       publishers:
+          - notifier://
           - monasca://http://127.0.0.1:8070/v2.0

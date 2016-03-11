@@ -1,41 +1,44 @@
+metrics:
+    - region.allocated_ip
+    - region.pool_ip
+    - region.used_ip
+    - image
+    - instance
+    - compute.node.cpu.percent
+    - compute.node.cpu.now
+    - compute.node.cpu.tot
+    - compute.node.ram.now
+    - compute.node.ram.tot
+    - compute.node.disk.now
+    - compute.node.disk.tot
+    - processes.process_pid_count
 dimensions:
     - resource_id
     - project_id
     - user_id
-    - geolocation
     - region
-    - availability_zone
     - type
     - unit
     - source
+    - nova-api
 metadata:
     common:
         - event_type
-        - audit_period_beginning
-        - audit_period_ending
-    instance:
-        - state
-        - state_description
+    region.pool_ip:
+        - location
+        - latitude
+        - longitude
+        - ram_allocation_ratio
+        - cpu_allocation_ratio
     image:
         - size
         - status
-    image.size:
-        - size
+        - name
+        - properties
+    instance:
+        - name
+        - host
         - status
-    image.update:
-        - size
-        - status
-    image.upload:
-        - size
-        - status
-    image.delete:
-        - size
-        - status
-    snapshot:
-        - status
-    snapshot.size:
-        - status
-    volume:
-        - status
-    volume.size:
-        - status
+        - instance_type
+        - image_ref
+        - properties
