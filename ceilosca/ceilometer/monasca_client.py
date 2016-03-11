@@ -18,6 +18,7 @@ from monascaclient import exc
 from monascaclient import ksclient
 from oslo_config import cfg
 from oslo_log import log
+import json
 
 monclient_opts = [
     cfg.StrOpt('clientapi_version',
@@ -77,8 +78,20 @@ class Client(object):
         self._mon_client = client.Client(cfg.CONF.monasca.clientapi_version,
                                          self._endpoint, **self._kwargs)
 
+    def _value_meta_marshalling(self, kwargs):
+        """Stringification of value_meta keypairs to comply with Monasca API."""
+        data = kwargs.get('jsonbody', kwargs)
+        data = [data] if not isinstance(data, list) else data
+        for i in range(0, len(data)):
+            item = data[i]
+            if 'value_meta' in item:
+                data[i]['value_meta'].update(
+                    dict((key, json.dumps(val) if isinstance(val, dict) else str(val))
+                         for key, val in item['value_meta'].items()))
+
     def call_func(self, func, **kwargs):
         try:
+            self._value_meta_marshalling(kwargs)
             return func(**kwargs)
         except (exc.HTTPInternalServerError,
                 exc.HTTPServiceUnavailable,
