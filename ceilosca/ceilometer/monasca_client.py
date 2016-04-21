@@ -78,20 +78,20 @@ class Client(object):
         self._mon_client = client.Client(cfg.CONF.monasca.clientapi_version,
                                          self._endpoint, **self._kwargs)
 
-    def _value_meta_marshalling(self, kwargs):
-        """Stringification of value_meta keypairs to comply with Monasca API."""
+    def _metric_preprocessing(self, kwargs):
+        """Add current region as dimension 'region' and stringify value_meta keypairs to comply with Monasca API."""
         data = kwargs.get('jsonbody', kwargs)
         data = [data] if not isinstance(data, list) else data
         for i in range(0, len(data)):
             item = data[i]
+            item['dimensions']['region'] = self._kwargs['region_name']
             if 'value_meta' in item:
-                data[i]['value_meta'].update(
+                item['value_meta'].update(
                     dict((key, json.dumps(val) if isinstance(val, dict) else str(val))
                          for key, val in item['value_meta'].items()))
 
     def call_func(self, func, **kwargs):
         try:
-            self._value_meta_marshalling(kwargs)
             return func(**kwargs)
         except (exc.HTTPInternalServerError,
                 exc.HTTPServiceUnavailable,
@@ -107,6 +107,7 @@ class Client(object):
             raise
 
     def metrics_create(self, **kwargs):
+        self._metric_preprocessing(kwargs)
         return self.call_func(self._mon_client.metrics.create,
                               **kwargs)
 
