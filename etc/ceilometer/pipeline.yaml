@@ -3,17 +3,23 @@ sources:
     - name: meter_source
       interval: 600
       meters:
-          - "region.allocated_ip"
-          - "region.pool_ip"
-          - "region.used_ip"
+          - "region*"
           - "image"
           - "instance"
+          - "memory.usage"
+          - "memory.resident"
+          - "disk.capacity"
+          - "cpu*"
           - "compute.node.cpu.percent"
           - "compute.node.cpu.now"
+          - "compute.node.cpu.tot"
+          - "compute.node.cpu.max"
           - "compute.node.ram.now"
           - "compute.node.ram.tot"
+          - "compute.node.ram.max"
           - "compute.node.disk.now"
           - "compute.node.disk.tot"
+          - "compute.node.disk.max"
           - "processes.process_pid_count"
       sinks:
           - meter_sink
