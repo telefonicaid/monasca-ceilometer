@@ -4,13 +4,20 @@ metrics:
     - region.used_ip
     - image
     - instance
+    - memory.usage
+    - memory.resident
+    - disk.capacity
+    - cpu_util
     - compute.node.cpu.percent
     - compute.node.cpu.now
     - compute.node.cpu.tot
+    - compute.node.cpu.max
     - compute.node.ram.now
     - compute.node.ram.tot
+    - compute.node.ram.max
     - compute.node.disk.now
     - compute.node.disk.tot
+    - compute.node.disk.max
     - processes.process_pid_count
 dimensions:
     - resource_id
@@ -20,7 +27,6 @@ dimensions:
     - type
     - unit
     - source
-    - nova-api
 metadata:
     common:
         - event_type
@@ -36,6 +42,34 @@ metadata:
         - name
         - properties
     instance:
+        - name
+        - host
+        - status
+        - instance_type
+        - image_ref
+        - properties
+    memory.usage:
+        - name
+        - host
+        - status
+        - instance_type
+        - image_ref
+        - properties
+    memory.resident:
+        - name
+        - host
+        - status
+        - instance_type
+        - image_ref
+        - properties
+    disk.capacity:
+        - name
+        - host
+        - status
+        - instance_type
+        - image_ref
+        - properties
+    cpu_util:
         - name
         - host
         - status
