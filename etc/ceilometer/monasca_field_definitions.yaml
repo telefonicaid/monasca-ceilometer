@@ -4,10 +4,11 @@ metrics:
     - region.used_ip
     - image
     - instance
-    - memory.usage
-    - memory.resident
-    - disk.capacity
     - cpu_util
+    - memory.usage
+    - memory
+    - disk.usage
+    - disk.capacity
     - compute.node.cpu.percent
     - compute.node.cpu.now
     - compute.node.cpu.tot
@@ -48,6 +49,13 @@ metadata:
         - instance_type
         - image_ref
         - properties
+    cpu_util:
+        - name
+        - host
+        - status
+        - instance_type
+        - image_ref
+        - properties
     memory.usage:
         - name
         - host
@@ -55,7 +63,14 @@ metadata:
         - instance_type
         - image_ref
         - properties
-    memory.resident:
+    memory:
+        - name
+        - host
+        - status
+        - instance_type
+        - image_ref
+        - properties
+    disk.usage:
         - name
         - host
         - status
@@ -63,13 +78,6 @@ metadata:
         - image_ref
         - properties
     disk.capacity:
-        - name
-        - host
-        - status
-        - instance_type
-        - image_ref
-        - properties
-    cpu_util:
         - name
         - host
         - status
