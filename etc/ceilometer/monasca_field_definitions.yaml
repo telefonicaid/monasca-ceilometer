@@ -37,6 +37,12 @@ metadata:
         - longitude
         - ram_allocation_ratio
         - cpu_allocation_ratio
+        - ceilometer_version
+        - keystone_version
+        - neutron_version
+        - cinder_version
+        - nova_version
+        - glance_version
     image:
         - size
         - status
