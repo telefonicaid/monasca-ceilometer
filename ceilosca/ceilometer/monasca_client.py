@@ -47,6 +47,8 @@ class MonascaInvalidParametersException(Exception):
 class Client(object):
     """A client which gets information via python-monascaclient."""
 
+    version = '2015.1.2'
+
     def __init__(self, parsed_url):
         conf = cfg.CONF.service_credentials
         if not conf.os_username or not conf.os_password or \
@@ -87,7 +89,7 @@ class Client(object):
             item['dimensions']['region'] = self._kwargs['region_name']
             if 'value_meta' in item:
                 item['value_meta'].update(
-                    dict((key, json.dumps(val) if isinstance(val, dict) else str(val))
+                    dict((key, json.dumps(val).replace('"', "'") if isinstance(val, dict) else str(val))
                          for key, val in item['value_meta'].items()))
 
     def call_func(self, func, **kwargs):
