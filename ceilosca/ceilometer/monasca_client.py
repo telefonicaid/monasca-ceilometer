@@ -18,7 +18,6 @@ from monascaclient import exc
 from monascaclient import ksclient
 from oslo_config import cfg
 from oslo_log import log
-import json
 
 monclient_opts = [
     cfg.StrOpt('clientapi_version',
@@ -89,7 +88,7 @@ class Client(object):
             item['dimensions']['region'] = self._kwargs['region_name']
             if 'value_meta' in item:
                 item['value_meta'].update(
-                    dict((key, json.dumps(val).replace('"', "'") if isinstance(val, dict) else str(val))
+                    dict((key, str(val).replace("u'", "'").replace('"', "\\'"))
                          for key, val in item['value_meta'].items()))
 
     def call_func(self, func, **kwargs):
