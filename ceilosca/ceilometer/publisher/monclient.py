@@ -22,7 +22,7 @@ from oslo_log import log
 import ceilometer
 from ceilometer.i18n import _
 from ceilometer import monasca_client as mon_client
-from ceilometer.openstack.common import loopingcall
+from oslo_service import loopingcall
 from ceilometer import publisher
 from ceilometer.publisher.monasca_data_filter import MonascaDataFilter
 
@@ -150,7 +150,7 @@ class MonascaPublisher(publisher.PublisherBase):
             if hasattr(self, 'archive_handler'):
                     self.archive_handler.publish_samples(None, metrics)
 
-    def publish_samples(self, context, samples):
+    def publish_samples(self, samples):
         """Main method called to publish samples."""
 
         for sample in samples:
