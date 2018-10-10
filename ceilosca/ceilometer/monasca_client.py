@@ -48,6 +48,18 @@ class Client(object):
 
     version = '2015.1.2'
 
+    def get_parameter(self, value):
+        with open("/etc/ceilometer/ceilometer.conf") as f:
+            sample_config = f.read()
+            config = ConfigParser.RawConfigParser(allow_no_value=True)
+            config.readfp(io.BytesIO(sample_config))
+
+            for section in config.sections():
+                if section == 'service_credentials':
+                    for options in config.options(section):
+                        if options == value:
+                            return config.get(section, options)
+
     def __init__(self, parsed_url):
         conf = cfg.CONF.service_credentials
         if not conf.os_username or not conf.os_password or \
@@ -58,12 +70,12 @@ class Client(object):
             raise MonascaInvalidServiceCredentialsException(err_msg)
 
         kwargs = {
-            'username': conf.os_username,
-            'password': conf.os_password,
-            'auth_url': conf.os_auth_url.replace("v2.0", "v3"),
-            'project_id': conf.os_tenant_id,
-            'project_name': conf.os_tenant_name,
-            'region_name': conf.os_region_name,
+            'username': self.get_parameter('username'),
+            'password': self.get_parameter('password'),
+            'auth_url': self.get_parameter('auth_url'),
+            'project_id': self.get_parameter('project_domain_id'),
+            'project_name': self.get_parameter('project_name'),
+            'region_name': self.get_parameter('region_name'),
         }
 
         self._kwargs = kwargs
